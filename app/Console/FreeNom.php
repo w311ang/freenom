@@ -19,7 +19,7 @@ use Luolongfei\Lib\TelegramBot;
 
 class FreeNom
 {
-    const VERSION = 'v0.2.5';
+    const VERSION = 'v0.3';
 
     const TIMEOUT = 34.52;
 
