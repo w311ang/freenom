@@ -19,7 +19,9 @@ Documentation: [English version](https://github.com/luolongfei/freenom/blob/mast
 
 [⛵  通过 Docker 方式部署](#--方式一通过-docker-部署最简单的方式)（最简单的方式，推荐）
 
-[🚧  直接拉取源码部署](#--方式二直接拉取源码部署)
+[🕹  通过腾讯云函数（SCF）部署](#--方式二通过腾讯云函数scf部署)
+
+[🚧  直接拉取源码部署](#--方式三直接拉取源码部署)
 
 [📋  捐赠名单 Donate List](#--捐赠名单-donate-list)
 
@@ -142,7 +144,7 @@ Telegram bot 有两个配置项，一个是`chatID`（对应`.env`文件中的`T
 
 ***
 
-*与通知相关的设置到此就完成了，下面开始讲本项目的两种使用方式，一种是通过 Docker，一种是直接拉取源码部署，推荐使用 Docker 方式，无需纠结环境。*
+*与通知相关的设置到此就完成了，下面开始讲本项目的三种使用方式，一种是通过 Docker，另一种是通过腾讯云函数，再一种是直接拉取源码部署，推荐使用 Docker 方式，无需纠结环境。*
 
 ### ⛵  方式一：通过 Docker 部署（最简单的方式）
 
@@ -238,7 +240,7 @@ $ docker run -d --name freenom --restart always -v $(pwd):/conf -v $(pwd)/logs:/
 | :---: | :---: | :---: | :---: | :---: |
 | FREENOM_USERNAME | Freenom 账户 | - | 是 | 只支持邮箱账户，如果你是使用第三方社交账户登录的用户，请在 Freenom 管理页面绑定邮箱，绑定后即可使用邮箱账户登录 |
 | FREENOM_PASSWORD | Freenom 密码 | - | 是 | 某些特殊字符可能需要转义，详见`.env`文件内注释 |
-| MULTIPLE_ACCOUNTS | 多账户支持 | - | 否 | 多个账户和密码的格式必须是“`<账户1>@<密码1>\|<账户2>@<密码2>\|<账户3>@<密码3>`”，如果设置了多账户，上面的`FREENOM_USERNAME`和`FREENOM_PASSWORD`可不设置 |
+| MULTIPLE_ACCOUNTS | 多账户支持 | - | 否 | 多个账户和密码的格式必须是“`<账户1>@<密码1>\|<账户2>@<密码2>\|<账户3>@<密码3>`”，注意不要省略“<>”符号，否则无法正确匹配。如果设置了多账户，上面的`FREENOM_USERNAME`和`FREENOM_PASSWORD`可不设置 |
 | MAIL_USERNAME | 机器人邮箱账户 | - | 是 | 支持`Gmail`、`QQ邮箱`以及`163邮箱`，尽可能使用`163邮箱`或者`QQ邮箱`而非`Gmail`。因为谷歌的安全机制，每次在新设备登录 `Gmail` 都会先被限制，需要手动解除限制才行。具体的配置方法参考「 [配置发信邮箱](#--配置发信邮箱) 」 |
 | MAIL_PASSWORD | 机器人邮箱密码 | - | 是 | `Gmail`填密码，`QQ邮箱`或`163邮箱`填授权码 |
 | TO | 接收通知的邮箱 | - | 是 | 你自己最常用的邮箱，推荐使用`QQ邮箱`，用来接收机器人邮箱发出的域名相关邮件 |
@@ -292,7 +294,33 @@ $ docker stats --no-stream
 
 *有关容器部署的内容结束。*
 
-### 🚧  方式二：直接拉取源码部署
+### 🕹  方式二：通过腾讯云函数（SCF）部署
+
+<hr>
+
+#### 1、下载 SCF 版本的压缩包
+
+此版本为特别版，支持通过腾讯云函数部署，与主分支版本不兼容，版本号为`v0.3_scf`，下载地址：
+[https://github.com/luolongfei/freenom/archive/refs/tags/v0.3_scf.zip](https://github.com/luolongfei/freenom/archive/refs/tags/v0.3_scf.zip)
+
+下载后解压到你能找到的任意目录，你将得到一个文件夹，后期将通过文件夹的形式上传到腾讯云函数。
+
+#### 2、创建腾讯云函数
+
+直接访问腾讯云函数控制台创建云函数： [https://console.cloud.tencent.com/scf/list-create](https://console.cloud.tencent.com/scf/list-create) ，
+按照下图所示的说明进行创建。如果无法看清图片，可访问： [https://github.com/luolongfei/freenom/blob/master/resources/screenshot/scf.png](https://github.com/luolongfei/freenom/blob/master/resources/screenshot/scf.png) 
+或者 [https://z3.ax1x.com/2021/06/01/2nKCF0.png](https://z3.ax1x.com/2021/06/01/2nKCF0.png) 查看原图。 
+
+[![scf01](https://z3.ax1x.com/2021/06/01/2nKCF0.png)](https://imgtu.com/i/2nKCF0)
+
+按照上图所示部署完成后，可以点击云函数的名称进入云函数管理画面，管理画面往下翻可看到`部署`与`测试`按钮，点击`测试`，稍等几秒钟，即可看到输出日志，
+根据输出日志判断配置以及部署是否正确。
+
+[![scf02](https://z3.ax1x.com/2021/06/01/2nGZ3q.png)](https://imgtu.com/i/2nGZ3q)
+
+*有关腾讯云函数部署的内容结束。*
+
+### 🚧  方式三：直接拉取源码部署
 
 <hr>
 
@@ -411,7 +439,7 @@ $ cd /data/wwwroot/freenom/ && php run
 
 ### 🚁  我正在用的 VPS
 
-注：推荐的 VPS 商家都是我正在使用的，走我的 Aff 地址购买，我可以获得一点收益，介意者复制官网地址访问即可。😆
+注：推荐的 VPS 商家都是我正在使用的，走我的 Aff 地址购买，我可以获得一点收益，也算是捐赠的一种，介意者复制官网地址访问即可。
 
 | 名称 | 购买地址 | 备注 |
 | :---: | :--- | :--- |
