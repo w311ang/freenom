@@ -166,6 +166,7 @@ Docker 仓库地址为： [https://hub.docker.com/r/luolongfei/freenom](https://
 ##### 1.1 以 root 用户登录，执行一键脚本安装 Docker
 
 升级源并安装软件（下面两行命令二选一，根据你自己的系统）
+
 Debian / Ubuntu
 ```shell
 apt-get update && apt-get install -y wget vim
